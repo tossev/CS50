@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<h1>Sumarry</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Stocks</th>
+                <th scope="col">Current price</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Holding</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for i in range(0, count) %}
+            <tr role="row">
+                <td>{{ stock_info[i]["name"] }} ( {{ stock_info[i]["symbol"] }} )</td>
+                <td>{{ curr_price[i] }}</td>
+                <td>{{ shares_balance[stock_info[i]["symbol"]] }}</td>
+                <td>{{ holdings[i] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+
+                <th>Cash balance: {{cash_balance}}</th>
+
+                <th>Grand total: {{grand_total}}</th>
+                <th></th><th></th>
+            </tr>
+        </tfoot>
+    </table>
+    <!--"112.00"-->
+    <!--"56.00"-->
+{% endblock %}
