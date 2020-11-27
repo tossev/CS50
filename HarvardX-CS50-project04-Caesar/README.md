@@ -7,26 +7,7 @@ $ ./caesar 13
 plaintext: HELLO
 ciphertext: URYYB
 ```
-## Background
-Supposedly, Caesar (yes, that Caesar) used to "encrypt" (i.e., conceal in a reversible way) confidential messages by shifting each letter therein by some number of places. For instance, he might write A as B, B as C, C as D, …​, and, wrapping around alphabetically, Z as A. And so, to say HELLO to someone, Caesar might write IFMMP. Upon receiving such messages from Caesar, recipients would have to "decrypt" them by shifting letters in the opposite direction by the same number of places.
 
-The secrecy of this "cryptosystem" relied on only Caesar and the recipients knowing a secret, the number of places by which Caesar had shifted his letters (e.g., 1). Not particularly secure by modern standards, but, hey, if you’re perhaps the first in the world to do it, pretty secure!
-
-Unencrypted text is generally called  _plaintext_. Encrypted text is generally called  _ciphertext_. And the secret used is called a  _key_.
-
-**Table 1. Encrypting HELLO with a key of 1 yields IFMMP.**
-|              |   |   |   |   |   |   |
-|--------------|---|---|---|---|---|---|
-| **plaintext**    | H | E | L | L | O |
-| **+ key**        | 1 | 1 | 1 | 1 | 1 |
-| **= ciphertext** | I | F | M | M | P |
-|              |   |   |   |   |   |
-
-More generally, Caesar’s algorithm (i.e., cipher) encrypts messages by "rotating" each letter by  _k_  positions. More formally, if  _p_  is some plaintext (i.e., an unencrypted message),  _pi_  is the  _ith_  character in  _p_, and  _k_  is a secret key (i.e., a non-negative integer), then each letter,  _ci_, in the ciphertext,  _c_, is computed as
-
-ci=(pi+k)mod26
-
-wherein  mod26  here means "remainder when dividing by 26." This formula perhaps makes the cipher seem more complicated than it is, but it’s really just a concise way of expressing the algorithm precisely.
 
 ## Specification
 Design and implement a program,  `caesar`, that encrypts messages using Caesar’s cipher.
@@ -79,3 +60,24 @@ Usage: ./caesar k
 $ ./caesar 1 2 3 4 5
 Usage: ./caesar k
 ```
+
+## Background
+Supposedly, Caesar (yes, that Caesar) used to "encrypt" (i.e., conceal in a reversible way) confidential messages by shifting each letter therein by some number of places. For instance, he might write A as B, B as C, C as D, …​, and, wrapping around alphabetically, Z as A. And so, to say HELLO to someone, Caesar might write IFMMP. Upon receiving such messages from Caesar, recipients would have to "decrypt" them by shifting letters in the opposite direction by the same number of places.
+
+The secrecy of this "cryptosystem" relied on only Caesar and the recipients knowing a secret, the number of places by which Caesar had shifted his letters (e.g., 1). Not particularly secure by modern standards, but, hey, if you’re perhaps the first in the world to do it, pretty secure!
+
+Unencrypted text is generally called  _plaintext_. Encrypted text is generally called  _ciphertext_. And the secret used is called a  _key_.
+
+**Table 1. Encrypting HELLO with a key of 1 yields IFMMP.**
+|              |   |   |   |   |   |   |
+|--------------|---|---|---|---|---|---|
+| **plaintext**    | H | E | L | L | O |
+| **+ key**        | 1 | 1 | 1 | 1 | 1 |
+| **= ciphertext** | I | F | M | M | P |
+|              |   |   |   |   |   |
+
+More generally, Caesar’s algorithm (i.e., cipher) encrypts messages by "rotating" each letter by  _k_  positions. More formally, if  _p_  is some plaintext (i.e., an unencrypted message),  _pi_  is the  _ith_  character in  _p_, and  _k_  is a secret key (i.e., a non-negative integer), then each letter,  _ci_, in the ciphertext,  _c_, is computed as
+
+ci=(pi+k)mod26
+
+wherein  mod26  here means "remainder when dividing by 26." This formula perhaps makes the cipher seem more complicated than it is, but it’s really just a concise way of expressing the algorithm precisely.
