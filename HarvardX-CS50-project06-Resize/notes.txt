@@ -1,0 +1,116 @@
+----- TODO -----
+
+open file
+update outfile's header info
+read infile's scanline, pixel by pixel
+resize horizontally
+remember padding!
+resize vertically
+
+----- copy.c -----
+
+opens file
+updates header info for outfile
+reads each scanline pixel by pixel
+writes each pixel into the output's file scanline
+
+----- BITMAPINFOHEADER -----
+
+biWidth 
+    width of the image (in pixels)
+        does not include padding
+
+biHeight
+    height of the image (in pixels)
+        does not include padding
+    
+biSizeImage
+    total size of the image (in bytes)
+        includes pixels and padding
+        
+bi.biSizeImage = ((sizeof(RGBTRIPLE) * biWidth) + padding) * abs(bi.biHeight);       
+
+----- BITMAPFILEHEADER -----    
+
+bfSize
+    total size of the file
+    includes pixel, padding and headers
+    
+bf.bfSize = bi.biSizeImage +
+            sizeof(BITMAPFILEHEADER) +
+            sizeof(BITMAPINFOHEADER);
+
+-------------------------------------------------------
+
+bi.biWidth ---> bi.biWidth *= n;
+bi.biHeight ---> bi.biHeight *= n;
+bi.biSizeImage ---> ?
+bf.bfSize ---> ?
+padding ---> ? keep track of the old and new padding
+
+----- RESIZE HORIZONTALLY -----
+
+n = 2;
+for each pixel in row
+    write n times
+
+----- PADDING -----
+
+each pixel is 3 bytes
+length of each scanline must be multiple of 4 bytes
+if the number of pixel isn'n multiple of 4 we need "padding"
+    padding is just zeroes (0x00)
+    
+padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+
+the outfile and the infile have different widths
+    so the padding is different
+
+padding isn't RGBTRIPLE
+    we cant fread(); padding
+
+----- WRITING PADDING -----
+
+fputc(chr, outptr);
+
+chr - char to write
+outptr - FILE* to write
+
+fputc(0x00, outptr);
+
+----- PSEUDOCODE: Resizing horizontally -----
+
+for each row
+    for each pixel in row
+        write in outfile n times
+    write outfile's padding
+    skip over infile's padding
+
+----- RESIZE VERTICALLY -----
+
+"rewrite" methods
+    remember pixels in array
+    re-write array as many times as needed
+
+"re-copy" methods
+    go back to the original scanline
+    re-scale scanline
+
+----- PSEUDOCODE: "rewrite" method -----
+
+for each row
+    for each pixel
+        write to array n times
+    for n times
+        write array to outfile
+        write outfile padding
+    skip over infile padding
+    
+----- PSEUDOCODE: "re-copy" method -----
+
+for each row
+    for n-1 times
+        write pixels, padding to outfile
+        send infile cursor back
+    write pixels padding to outfile
+    skip over infile padding

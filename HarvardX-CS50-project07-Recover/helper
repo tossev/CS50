@@ -1,0 +1,95 @@
+----- TODO -----
+
+open memory card file
+    fopen(); <--- check the return value to ensure we didn't NULL value
+find beginning of JPEG
+open a new JPEG
+write 512 bytes until new JPEG is found
+detect end of file
+
+----- JPEGs -----
+
+JPEGs are just sequences of bytes
+each JPEG starts with distinct header:
+    first 3 bytes: 0xff 0xd8 0xff
+    last byte: 0xe0, 0xe1, 0xe2, ... 0xef
+stored syde-by-side in the memory card
+each block is 512 bytes
+
+// check if first 4 bytes corresponds to JPEG
+if (buffer[0] == 0xff &&
+    buffer[1] == 0xd8 &&
+    buffer[2] == 0xff &&
+    (buffer[3] & 0xf0) == 0xe0){}
+
+----- READING FILES -----
+
+fread(data, size, number, inptr);
+    data: pointer to a struct that contain the bytes we are reading
+    size: size of each element to reading
+        sizeof();
+    number: number of elements to reading
+    inptr: FILE * to read from
+
+returns how many items of size 'size' were read
+    and ideally, it returns 'number'
+use it directly in the condition
+
+fread(buffer, 512, 1, raw_file);
+
+----- MAKING NEW JPEG -----
+
+filenames: ###.jpg
+named in order in which they are found, starting at 000
+    so keep track!
+
+sprintf(filename, "%03i.jpg", 2);
+    filename: char array to store the resulting string
+        002.jpg
+
+FILE *img = fopen(filename, "w");
+
+----- WRITING FILES -----
+
+fwrite(data, size, number, otptr);
+    data: pointer to the struct that contains the bytes we are reading from
+    size: size of each element to read
+    number: number of elements to read
+    outptr: FILE * to write to
+
+----- PSEUDOCODE -----
+
+open card file
+repeat until the end of card
+    read 512 bytes into a buffer
+    start of a new JPEG?
+        yes -> If we are, then we'll ask whether we've already found a JPEG.
+        no -> If we haven't, then that means that we'll start our very first JPEG.
+    already found a JPEG?
+        yes -> But if we already have found a JPEG, then that means that we need to close the previous file and then open our new one.
+            -> But if we have already found a JPEG, then that means that those 512 bytes belong to the currently opened file.
+        no -> Because if we haven't, then that means that we can simply discard those 512 bytes and then go to the start of our loop.
+close any remaining files
+
+----- ----- -----
+
+First we want to open the memory card file.
+
+Then, repeating until we've reached the end of the card file, we'll read 512 bytes in.
+
+Then we'll ask whether we're at the start of a new JPEG.
+
+If we are, then we'll ask whether we've already found a JPEG.
+
+If we haven't, then that means that we'll start our very first JPEG.
+
+But if we already have found a JPEG, then that means that we need to close the previous file and then open our new one.
+
+Now, say we've read 512 bytes in and we haven't reached the start of a new JPEG.
+
+Well, then we ask ourselves, well, have we already found a JPEG or not?
+
+Because if we haven't, then that means that we can simply discard those 512 bytes and then go to the start of our loop.
+
+But if we have already found a JPEG, then that means that those 512 bytes belong to the currently opened file.
+Finally, once we've reached the end of the memory card, we can exit the loop and close any remaining files.

@@ -1,0 +1,121 @@
+----- SPELLER.C -----
+
+calls load on the dictionary file
+    dictionary file contains vaild words, one per line
+calls check on each word in the text file and prints all misspelled words
+calls size to determine number of words in the dictionary
+calls unload to free up memory
+
+----- TODO -----
+
+load()
+    { loads the dictionary };
+check()
+    { checks if given word is in the dictionary };
+size()
+    { returns the number of words in the dictionary };
+unload()
+    { frees the dictionary from memory };
+
+----- SPELLER/LOAD -----
+
+for each word in the dictionary text file, store it in the dictionary's data structure
+
+    linked lists
+        linked list contains nodes
+                each node has a value, as well as a pointer to the next node
+                important:
+                    don't lose any links!
+                    last node points to NULL
+
+    typedef struct node
+    {
+        char word[LENGTH + 1];
+        struct *node next;
+    }
+    node;
+
+    node *node1 = malloc(sizeof(node));
+
+    hash tables
+        an array of buckets
+        each bucket is a linked list
+        hash function
+            returns the bucket that given key belongs to
+            takes a string
+            returns an index
+                index < number of buckets
+            deterministic
+                the same value need to map to the same bucket every time
+            hash the word
+                new_node->word has the word from the dictionary
+                hashing new_node->word will give us the index of the bucket in the hash table
+                insert into the linked list
+
+    hash table might look something like this:
+        // fefine struct for a node
+        typedef struct node
+        {
+            char word[LENGTH + 1];
+            struct *node next;
+        }
+        node;
+
+        // create array of nodes
+        node *hashtable[50];
+
+    populate hashtable with words found in the dictionary
+    make a new word
+        scan dictionary word by word
+        while (fscanf(file, "%s", word))
+        {
+            malloc a node  *for each new word
+                node *new_node = malloc(sizeof(node));
+                if (new_node == NULL)
+                {
+                    unload();
+                    return false;
+                }
+
+            copy word into node
+                strcpy(new_node->word, word);
+        };
+        repeat until EOF is reached
+            fscanf()
+                take the dictionary file
+                look for a string
+                put that string in a var called word
+
+    tries
+
+----- SPELLER/CHECK -----
+
+case-insesnsitive function
+assume strings with only alphabetical and/or apostrophes
+if the word exists, it can be found in the hash table
+which buckket the word would be in?
+    hashtabple[hash(word)];
+search in that linked list
+    strcasecmp
+
+traversing linked lists
+
+node *cursor = head;
+while (cursor != NULL)
+{
+    // do something
+    cursor = cursor->next;
+}
+
+----- SPELLER/UNLOAD -----
+
+freeing linked lists
+
+node *cursor = head;
+
+while (cursor !=NULL)
+{
+    node *temp = cursor;
+    cursor = cursor->next;
+    free(temp);
+}
