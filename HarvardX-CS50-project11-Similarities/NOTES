@@ -1,0 +1,111 @@
+----- LINES ----
+take in strings a and b
+split each string into lines
+compute a list of all lines that appear in both a and b
+    figure out which lines appear both in a and in b
+return the list
+    return a list that contains all of the lines that are present in both strings
+
+
+----- SENTENCES ----
+take in strings a and b
+split each string into sentences
+compute a list of all sentences that appear in both a and b
+    calculate the list of sentences that appear in both a and also in b
+return the list
+    return a list that contains all of the sentences that appear in both of the original strings
+
+
+----- SUBSTRINGS ----
+take in strings a, b ans length n
+split each string into all substrings of length n
+    extracy substring from string
+        s[i:j] returns the substring of s from index i to (but not including) index j
+compute a list of all substrings that appear in both a and b
+return the list
+
+
+----- INDEX.HTML ----
+inside the body block, add a form
+make sure form sends correctly encoded POST request to / compare
+    send the data from that form in a POST request to the route /compare of our web application
+let user choose file1, file2, algorithm, length
+    inside of the form, you'll want to let the user choose two files, file1 and file2, which they'll upload to your web application
+    in addition to choosing an algorithm for how they want to compare those files
+    if the user chose to compare two files based on substrings, you'll also want to let the user specify a length
+add a button to submit the form
+
+<form action = "/compare"
+                enctype="multipart/form-data"
+                method = "post">
+
+    --- input fields here ---
+    <input name ="file1" type="file"></input>
+    <input name ="file2" type="file"></input>
+    <input name ="algorithm" type="radio" value="lines, sentetnces, substr"></input>
+    <input name ="length" type="number"></input>
+
+</form>
+
+def get_substring(string, length):
+    output = set()
+    for i, word in enumerate(string):
+        word = string[i:i+length]
+        if len(word) < length:
+            break
+        output.add(word)
+    return(output)
+
+
+def duplicates(a, b):
+    return [a & b]
+
+
+'''
+    Implement lines in such a way that, given two strings, a and b, it returns a list of the lines that are, identically, in both a and b.
+    The list should not contain any duplicates.
+    Assume that lines in a and b will be be separated by \/n, but the strings in the returned list should not end in \/n.
+    If both a and b contain one or more blank lines (i.e., a \/n immediately preceded by no other characters),
+    the returned list should include an empty string (i.e., "").
+'''
+def lines(a, b):
+    """Return lines in both a and b"""
+
+    # TODO
+    return duplicates(set(a.split('\n')), set(b.split('\n')))
+
+
+
+'''
+Implement sentences in such a way that, given two strings, a and b, it returns a list of the unique English sentences that are, identically, present in both a and b.
+The list should not contain any duplicates.
+Use sent_tokenize from the Natural Language Toolkit to "tokenize" (i.e., separate) each string into a list of sentences.
+It can be imported with: from nltk.tokenize import sent_tokenize
+Per its documentation, sent_tokenize, given a str as input, returns a list of English sentences therein.
+It assumes that its input is indeed English text (and not, e.g., code, which might coincidentally have periods too).
+'''
+def sentences(a, b):
+    """Return sentences in both a and b"""
+    from nltk.tokenize import sent_tokenize
+
+    # TODO
+    return list(duplicates(set(sent_tokenize(a)), set(sent_tokenize(b))))
+
+
+
+'''
+Implement substrings in such a way that, given two strings, a and b, and an integer, n,
+it returns a list of all substrings of length n that are, identically, present in both a and b.
+The list should not contain any duplicates.
+Recall that a substring of length n of some string is just a sequence of n characters from that string.
+For instance, if n is 2 and the string is Yale, there are three possible substrings of length 2: Ya, al, and le.
+Meanwhile, if n is 1 and the string is Harvard, there are seven possible substrings of length 1: H, a, r, v, a, r, and d.
+But once we eliminate duplicates, there are only five unique substrings: H, a, r, v, and d.
+'''
+
+def substrings(a, b, n):
+    """Return substrings of length n in both a and b"""
+
+    # TODO
+    return duplicates(get_substring(string = a, length = n), get_substring(string = b, length = n))
+

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+<h1>Stock info</h1>
+
+        <!--<table class="table">-->
+        <!--    <thead>-->
+        <!--        <tr>-->
+        <!--            <th scope="col">Name</th>-->
+        <!--            <th scope="col">Price</th>-->
+        <!--            <th scope="col">Symbol</th>-->
+        <!--        </tr>-->
+        <!--    </thead>-->
+        <!--    <tbody>-->
+        <!--        <tr>-->
+        <!--            <td>{{name}}</td>-->
+        <!--            <td>${{price}}</td>-->
+        <!--            <td>{{symbol}}</td>-->
+        <!--        </tr>-->
+        <!--    </tbody>-->
+        <!--</table>-->
+    A share of {{name}} ({{symbol}}) costs {{price}}.
+    <!--<p><a href="/quote">go back</a> / <a href="/buy">buy</a> / <a href="/sell">sell</a></p>-->
+{% endblock %}

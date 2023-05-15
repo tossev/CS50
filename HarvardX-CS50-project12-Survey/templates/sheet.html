@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Email</th>
+                <th scope="col">City</th>
+                <th scope="col">District</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(0, count) %}
+                <tr role="row">
+                    <th scope="row">{{ i + 1 }}</th>
+                    {% for word in answers[i] %}
+                        <td>{{ word }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
